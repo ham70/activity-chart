@@ -9,6 +9,7 @@ import {
     MenuItem,
     TextField,
     Button,
+    Alert,
 } from '@mui/material'
 
 import dayjs, { Dayjs } from 'dayjs';
@@ -33,6 +34,7 @@ const modalStyle = {
 const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData}) =>{
     const [selectedNodeType, setSelectedNodeType] = useState('')
     const [nodeData, setNodeData] = useState({})
+    const [alertMessage, setAlertMessage] = useState('');
 
     const handleNodeTypeChange = (type) => {
         setSelectedNodeType(type)
@@ -47,12 +49,14 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
     }
 
     const handleAddNode = () => {
-        console.log(nodeData)
-        if (selectedNodeType && nodeData) {
+        if (selectedNodeType && nodeData && nodeData.label) {
             onAddNode(selectedNodeType, nodeData)
             onClose()
             setSelectedNodeType('')
             setNodeData({})
+        }
+        else if(!nodeData.label){
+            setAlertMessage('Label is a required field.')
         }
     }
 
@@ -62,6 +66,11 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                 <Typography id="add-node-modal-title" variant="h6" component="h2" gutterBottom>
                     Add New Node
                 </Typography>
+                {alertMessage && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {alertMessage}
+                    </Alert>
+                )}
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="node-type-label">Node Type</InputLabel>
                     <Select
@@ -111,11 +120,20 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                         </FormControl>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                            label="date-picker"
+                            label="Due Date"
                             value={dayjs(nodeData.dueDate)}
                             onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
                             />
                         </LocalizationProvider>
+                        <TextField 
+                            label ="Description"
+                            value = {nodeData.description || ''} 
+                            onChange = {(e) => handleInputChange('description', e.target.value)}
+                            fullWidth
+                            multiline
+                            maxRows={5}
+                            margin="normal"
+                        />
                     </div>
                 )}
                 <Box sx={{display:'flex', justifyContent:'space-between', mt:3}}>
