@@ -2,10 +2,19 @@ import React from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
-const TaskModal = ({ open, onClose, taskData }) => {
-  if (!taskData) return null; // Avoid rendering if there's no data
+const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
+  if (!taskNode) return null; // Avoid rendering if there's no data
 
-  const { label, priority, status, dueDate, lastUpdated, description } = taskData;
+  const { label, priority, status, dueDate, lastUpdated, description } = taskNode;
+
+  const handleDelete = () => { 
+    console.log(taskNode.id)
+    if (typeof onDelete === 'function') {
+      onDelete(taskNode.id);
+    } else {
+      console.error('Delete function is not properly defined');
+    }
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -30,6 +39,7 @@ const TaskModal = ({ open, onClose, taskData }) => {
         <p><strong>Last Updated:</strong> {lastUpdated || 'N/A'}</p>
         <p><strong>Description:</strong> {description || 'No description'}</p>
         <button onClick={onClose}>Close</button>
+        <button onClick={handleDelete}>Delete</button>
       </Box>
     </Modal>
   );

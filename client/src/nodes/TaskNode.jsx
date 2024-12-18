@@ -7,9 +7,6 @@ const TaskNode = ({ data }) => {
     priority,
     status,
     dueDate,
-    lastUpdated,
-    description,
-    deleteNode,
   } = data;
 
   // Helper for styling priority levels
@@ -19,15 +16,6 @@ const TaskNode = ({ data }) => {
     high: 'red',
   };
 
-  const handleDelete = (e) => {
-    e.stopPropagation(); // Prevent triggering the node click event
-    
-    if (typeof deleteNode === 'function') {
-      deleteNode();
-    } else {
-      console.error('Delete function is not properly defined');
-    }
-  };
 
   return (
     <div
@@ -40,20 +28,6 @@ const TaskNode = ({ data }) => {
         textAlign: 'center',
       }}
     >
-      <button
-        style={{
-          position: 'absolute',
-          top: '5px',
-          right: '5px',
-          color: 'red',
-          cursor: 'pointer',
-        }}
-        onClick={handleDelete}
-      >
-        X
-      </button>
-
-
       <Handle type="target" position={Position.Top} isConnectable={true} />
       <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>{label}</div>
       <div style={{ fontSize: '12px', marginBottom: '5px' }}>

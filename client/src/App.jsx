@@ -45,11 +45,13 @@ function App() {
   };
 
   const deleteNode = (nodeId) => {
-    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== nodeId));
+    console.log("deleteing Node: " + nodeId)
+    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== nodeId))
+    handleCloseModal()
   }
 
   const onConnect = useCallback((connection) => {
-    const edge = { ...connection, id: `e${connection.source}-${connection.target}` }
+    const edge = { ...connection, id: `e${connection.source}-${connection.target}`, deletable: true }
     setEdges((prevEdges) => addEdge(edge, prevEdges))
   }, []);
 
@@ -67,7 +69,7 @@ function App() {
   const [selectedNode, setSelectedNode] = useState(null);
 
   const handleNodeClick = (event, node) => {
-    setSelectedNode(node.data);
+    setSelectedNode(node);
     setModalOpen(true);
   };
 
@@ -94,13 +96,7 @@ function App() {
       </button>
       <div style={{ width: '100vw', height: '100vh' }}>
         <ReactFlow
-          nodes={nodes.map((node) => ({
-            ...node,
-            data: {
-              ...node.data,
-              deleteNode: () => deleteNode(node.id), // Correctly pass deleteNode in data
-            },
-          }))}
+          nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
           onNodeClick={handleNodeClick}
@@ -122,7 +118,8 @@ function App() {
         <TaskModal
           open={modalOpen}
           onClose={handleCloseModal}
-          taskData={selectedNode}
+          onDelete={deleteNode}
+          taskNode={selectedNode}
         />
       </div>
     </>
