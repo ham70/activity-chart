@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
   if (!taskNode) return null; // Avoid rendering if there's no data
 
-  const { label, priority, status, dueDate, lastUpdated, description } = taskNode;
+  const { label, priority, status, dueDate, lastUpdated, description } = taskNode.data;
 
   const handleDelete = () => { 
     console.log(taskNode.id)

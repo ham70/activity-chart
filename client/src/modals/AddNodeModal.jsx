@@ -10,6 +10,7 @@ import {
     TextField,
     Button,
     Alert,
+    Switch,
 } from '@mui/material'
 
 import dayjs, { Dayjs } from 'dayjs';
@@ -123,6 +124,38 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                             label="Due Date"
                             value={dayjs(nodeData.dueDate)}
                             onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
+                            />
+                        </LocalizationProvider>
+                        <TextField 
+                            label ="Description"
+                            value = {nodeData.description || ''} 
+                            onChange = {(e) => handleInputChange('description', e.target.value)}
+                            fullWidth
+                            multiline
+                            maxRows={5}
+                            margin="normal"
+                        />
+                    </div>
+                )}
+                {selectedNodeType == 'goalNode' && (
+                    <div>
+                        <TextField 
+                            label ="Task Label"
+                            value = {nodeData.label || ''} 
+                            onChange = {(e) => handleInputChange('label', e.target.value)}
+                            fullWidth
+                            margin="normal"
+                        />
+                        <Switch
+                            label="Completed"
+                            checked={nodeData.completed || false}
+                            onChange = {(e) => handleInputChange('completed', e.target.value)}
+                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                            label="Deadline"
+                            value={dayjs(nodeData.deadline)}
+                            onChange={(date) => handleInputChange('deadline', date.toISOString().split('T')[0])}
                             />
                         </LocalizationProvider>
                         <TextField 

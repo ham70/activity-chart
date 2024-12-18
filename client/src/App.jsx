@@ -10,6 +10,7 @@ import {
 import '@xyflow/react/dist/style.css'
 
 import TaskNode from './nodes/TaskNode'
+import GoalNode from './nodes/GoalNode'
 import TaskModal from './modals/TaskModal'
 import AddNodeModal from './modals/AddNodeModal'
 
@@ -37,9 +38,9 @@ function App() {
       description: '',
     },
     goalNode: {
-      title: '',
-      progress: 0,
-      deadline: null,
+      label: '',
+      completed: false,
+      deadline: new Date().toISOString().split('T')[0],
       description: '',
     },
   };
@@ -70,7 +71,9 @@ function App() {
 
   const handleNodeClick = (event, node) => {
     setSelectedNode(node);
-    setModalOpen(true);
+    if(node.type == 'taskNode'){
+      setModalOpen(true)
+    }
   };
 
   const handleCloseModal = () => {
@@ -102,7 +105,7 @@ function App() {
           onNodeClick={handleNodeClick}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          nodeTypes={{ taskNode: TaskNode }}
+          nodeTypes={{ taskNode: TaskNode, goalNode: GoalNode}}
           fitView
         >
           <Background />
