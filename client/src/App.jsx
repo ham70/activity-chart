@@ -12,6 +12,7 @@ import '@xyflow/react/dist/style.css'
 import TaskNode from './nodes/TaskNode'
 import GoalNode from './nodes/GoalNode'
 import TaskModal from './modals/TaskModal'
+import GoalModal from './modals/GoalModal'
 import AddNodeModal from './modals/AddNodeModal'
 
 
@@ -20,7 +21,8 @@ function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
 
   const [addNodeModalOpen, setAddNodeModalOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [taskModalOpen, setTaskModalOpen] = useState(false);
+  const [goalModalOpen, setGoalModalOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
 
   const nodeTypeOptions = [
@@ -67,13 +69,6 @@ function App() {
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
-  const handleNodeClick = (event, node) => {
-    setSelectedNode(node);
-    if(node.type == 'taskNode'){
-      setModalOpen(true)
-    }
-  };
-
   const handleUpdateNodeData = (updatedNode) => {
     setNodes((prevNodes) =>
       prevNodes.map((node) =>
@@ -82,8 +77,18 @@ function App() {
     );
   };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleNodeClick = (event, node) => {
+    setSelectedNode(node);
+    if (node.type === 'taskNode') {
+      setTaskModalOpen(true);
+    } else if (node.type === 'goalNode') {
+      setGoalModalOpen(true);
+    }
+  };
+
+  const handleCloseModals = () => {
+    setTaskModalOpen(false);
+    setGoalModalOpen(false);
     setSelectedNode(null);
   };
 
@@ -125,10 +130,17 @@ function App() {
           defaultNodeData={defaultNodeData}
         />
         <TaskModal
-          open={modalOpen}
-          onClose={handleCloseModal}
+          open={taskModalOpen}
+          onClose={handleCloseModals}
           onDelete={deleteNode}
           taskNode={selectedNode}
+          onUpdate={handleUpdateNodeData}
+        />
+        <GoalModal
+          open={goalModalOpen}
+          onClose={handleCloseModals}
+          onDelete={deleteNode}
+          goalNode={selectedNode}
           onUpdate={handleUpdateNodeData}
         />
       </div>

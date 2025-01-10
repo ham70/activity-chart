@@ -140,17 +140,21 @@ const AddNode = ({ isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData 
                 {selectedNodeType == 'goalNode' && (
                     <div>
                         <TextField
-                            label="Task Label"
+                            label="Goal Label"
                             value={nodeData.label || ''}
                             onChange={(e) => handleInputChange('label', e.target.value)}
                             fullWidth
                             margin="normal"
                         />
-                        <Switch
-                            label="Completed"
-                            checked={nodeData.completed || false}
-                            onChange={(e) => handleInputChange('completed', e.target.value)}
-                        />
+                        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                            <Typography variant="body1" sx={{ mr: 1 }}>
+                                Completed:
+                            </Typography>
+                            <Switch
+                                checked={nodeData.completed || false}
+                                onChange={(e) => handleInputChange('completed', e.target.checked)}
+                            />
+                        </Box>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Deadline"

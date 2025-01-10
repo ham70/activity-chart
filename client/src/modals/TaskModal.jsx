@@ -39,7 +39,6 @@ const TaskModal = ({ open, onClose, onDelete, taskNode, onUpdate }) => {
   }
 
   const handleDelete = () => {
-    console.log(taskNode.id)
     if (typeof onDelete === 'function') {
       onDelete(taskNode.id);
     } else {

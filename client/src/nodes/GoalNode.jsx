@@ -9,14 +9,6 @@ const GoalNode = ({ data }) => {
     description,
   } = data;
 
-  // Helper for styling priority levels
-  const priorityColors = {
-    low: 'green',
-    medium: 'orange',
-    high: 'red',
-  };
-
-
   return (
     <div
       style={{
