@@ -30,9 +30,9 @@ const modalStyle = {
     boxShadow: 24,
     p: 4,
     borderRadius: 2,
-  };
+};
 
-const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData}) =>{
+const AddNode = ({ isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData }) => {
     const [selectedNodeType, setSelectedNodeType] = useState('')
     const [nodeData, setNodeData] = useState({})
     const [alertMessage, setAlertMessage] = useState('');
@@ -56,7 +56,7 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
             setSelectedNodeType('')
             setNodeData({})
         }
-        else if(!nodeData.label){
+        else if (!nodeData.label) {
             setAlertMessage('Label is a required field.')
         }
     }
@@ -75,10 +75,10 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="node-type-label">Node Type</InputLabel>
                     <Select
-                        labelId = "node-type-label"
-                        value = {selectedNodeType}
-                        onChange = {(e) => handleNodeTypeChange(e.target.value)}
-                        label = "Node Type"
+                        labelId="node-type-label"
+                        value={selectedNodeType}
+                        onChange={(e) => handleNodeTypeChange(e.target.value)}
+                        label="Node Type"
                     >
                         {nodeTypeOptions.map((options) => (
                             <MenuItem key={options.type} value={options.type}>
@@ -89,10 +89,10 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                 </FormControl>
                 {selectedNodeType == 'taskNode' && (
                     <div>
-                        <TextField 
-                            label ="Task Label"
-                            value = {nodeData.label || ''} 
-                            onChange = {(e) => handleInputChange('label', e.target.value)}
+                        <TextField
+                            label="Task Label"
+                            value={nodeData.label || ''}
+                            onChange={(e) => handleInputChange('label', e.target.value)}
                             fullWidth
                             margin="normal"
                         />
@@ -108,7 +108,7 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                             </Select>
                         </FormControl>
                         <FormControl fullWidth margin="normal">
-                        <InputLabel>Status</InputLabel>
+                            <InputLabel>Status</InputLabel>
                             <Select
                                 value={nodeData.status || ''}
                                 onChange={(e) => handleInputChange('status', e.target.value)}
@@ -121,15 +121,15 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                         </FormControl>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                            label="Due Date"
-                            value={dayjs(nodeData.dueDate)}
-                            onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
+                                label="Due Date"
+                                value={dayjs(nodeData.dueDate)}
+                                onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
                             />
                         </LocalizationProvider>
-                        <TextField 
-                            label ="Description"
-                            value = {nodeData.description || ''} 
-                            onChange = {(e) => handleInputChange('description', e.target.value)}
+                        <TextField
+                            label="Description"
+                            value={nodeData.description || ''}
+                            onChange={(e) => handleInputChange('description', e.target.value)}
                             fullWidth
                             multiline
                             maxRows={5}
@@ -139,29 +139,29 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                 )}
                 {selectedNodeType == 'goalNode' && (
                     <div>
-                        <TextField 
-                            label ="Task Label"
-                            value = {nodeData.label || ''} 
-                            onChange = {(e) => handleInputChange('label', e.target.value)}
+                        <TextField
+                            label="Task Label"
+                            value={nodeData.label || ''}
+                            onChange={(e) => handleInputChange('label', e.target.value)}
                             fullWidth
                             margin="normal"
                         />
                         <Switch
                             label="Completed"
                             checked={nodeData.completed || false}
-                            onChange = {(e) => handleInputChange('completed', e.target.value)}
+                            onChange={(e) => handleInputChange('completed', e.target.value)}
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                            label="Deadline"
-                            value={dayjs(nodeData.deadline)}
-                            onChange={(date) => handleInputChange('deadline', date.toISOString().split('T')[0])}
+                                label="Deadline"
+                                value={dayjs(nodeData.deadline)}
+                                onChange={(date) => handleInputChange('deadline', date.toISOString().split('T')[0])}
                             />
                         </LocalizationProvider>
-                        <TextField 
-                            label ="Description"
-                            value = {nodeData.description || ''} 
-                            onChange = {(e) => handleInputChange('description', e.target.value)}
+                        <TextField
+                            label="Description"
+                            value={nodeData.description || ''}
+                            onChange={(e) => handleInputChange('description', e.target.value)}
                             fullWidth
                             multiline
                             maxRows={5}
@@ -169,7 +169,7 @@ const AddNode = ({isOpen, onClose, onAddNode, nodeTypeOptions, defaultNodeData})
                         />
                     </div>
                 )}
-                <Box sx={{display:'flex', justifyContent:'space-between', mt:3}}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
                     <Button variant="contained" color="primary" onClick={handleAddNode} disabled={!selectedNodeType}>
                         Add Node
                     </Button>

@@ -21,7 +21,7 @@ function App() {
 
   const [addNodeModalOpen, setAddNodeModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [nodeData, setNodeData] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   const nodeTypeOptions = [
     { type: 'taskNode', label: 'Task Node' },
@@ -67,13 +67,19 @@ function App() {
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
-  const [selectedNode, setSelectedNode] = useState(null);
-
   const handleNodeClick = (event, node) => {
     setSelectedNode(node);
     if(node.type == 'taskNode'){
       setModalOpen(true)
     }
+  };
+
+  const handleUpdateNodeData = (updatedNode) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === updatedNode.id ? { ...node, data: updatedNode.data } : node
+      )
+    );
   };
 
   const handleCloseModal = () => {
@@ -123,6 +129,7 @@ function App() {
           onClose={handleCloseModal}
           onDelete={deleteNode}
           taskNode={selectedNode}
+          onUpdate={handleUpdateNodeData}
         />
       </div>
     </>

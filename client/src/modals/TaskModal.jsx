@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import {
-    Modal,
-    Box,
-    Typography,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    TextField,
-    Button,
-    Alert,
-    Switch,
+  Modal,
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Button,
+  Alert,
+  Switch,
 } from '@mui/material'
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -18,12 +18,19 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
-const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
+const TaskModal = ({ open, onClose, onDelete, taskNode, onUpdate }) => {
   if (!taskNode) return null; // Avoid rendering if there's no data
 
   const { label, priority, status, dueDate, lastUpdated, description } = taskNode.data;
   const [nodeData, setNodeData] = useState({ label, priority, status, dueDate, lastUpdated, description })
-  
+
+  const handleSave = () => {
+    if (taskNode) {
+      onUpdate({ ...taskNode, data: nodeData });
+      onClose();
+    }
+  };
+
   const handleInputChange = (field, value) => {
     setNodeData((prevData) => ({
       ...prevData,
@@ -31,7 +38,7 @@ const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
     }))
   }
 
-  const handleDelete = () => { 
+  const handleDelete = () => {
     console.log(taskNode.id)
     if (typeof onDelete === 'function') {
       onDelete(taskNode.id);
@@ -58,10 +65,10 @@ const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
       >
         <h2>{label}</h2>
         <div>
-          <TextField 
-            label ="Task Label"
-            value = {nodeData.label || ''} 
-            onChange = {(e) => handleInputChange('label', e.target.value)}
+          <TextField
+            label="Task Label"
+            value={nodeData.label || ''}
+            onChange={(e) => handleInputChange('label', e.target.value)}
             fullWidth
             margin="normal"
           />
@@ -77,7 +84,7 @@ const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
             </Select>
           </FormControl>
           <FormControl fullWidth margin="normal">
-          <InputLabel>Status</InputLabel>
+            <InputLabel>Status</InputLabel>
             <Select
               value={nodeData.status || ''}
               onChange={(e) => handleInputChange('status', e.target.value)}
@@ -90,24 +97,25 @@ const TaskModal = ({ open, onClose, onDelete, taskNode }) => {
           </FormControl>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-            label="Due Date"
-            value={dayjs(nodeData.dueDate)}
-            onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
+              label="Due Date"
+              value={dayjs(nodeData.dueDate)}
+              onChange={(date) => handleInputChange('dueDate', date.toISOString().split('T')[0])}
             />
           </LocalizationProvider>
-          <TextField 
-            label ="Description"
-            value = {nodeData.description || ''} 
-            onChange = {(e) => handleInputChange('description', e.target.value)}
+          <TextField
+            label="Description"
+            value={nodeData.description || ''}
+            onChange={(e) => handleInputChange('description', e.target.value)}
             fullWidth
             multiline
             maxRows={5}
             margin="normal"
           />
-      </div>
+        </div>
         <div>
           <button onClick={onClose}>Close</button>
           <button onClick={handleDelete}>Delete</button>
+          <button onClick={handleSave}>Save</button>
         </div>
       </Box>
     </Modal>
